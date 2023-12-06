@@ -98,12 +98,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CartScreen()),
-                      );
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             CartScreen(items: ,)),
+                    //   );
                  
                 },
                 child: Text(

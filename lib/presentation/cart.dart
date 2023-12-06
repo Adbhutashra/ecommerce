@@ -1,11 +1,16 @@
+import 'package:ecommerceapp/presentation/productDetails.dart';
 import 'package:flutter/material.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+ final  List<CartItem> items;
+
+  const CartScreen({super.key, required this.items});
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   // Placeholder data, replace with actual cart data
-  List cartItems = [
-    // CartItem(product: Product(name: "Product 1", price: 20), quantity: 2),
-    // CartItem(product: Product(name: "Product 2", price: 30), quantity: 1),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +25,17 @@ class CartScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: cartItems.length,
+                itemCount: widget.items.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(cartItems[index].product.name),
-                    subtitle: Text('Quantity: ${cartItems[index].quantity}'),
-                    trailing: Text('\$${cartItems[index].totalPrice()}'),
+                    title: Text(widget.items[index].product.name),
+                    subtitle: Text('Quantity: ${widget.items[index].quantity}'),
+                    trailing: Text('\$${widget.items[index].totalPrice()}'),
                     onTap: () {
                       // Implement remove item functionality
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Removed from Cart: ${cartItems[index].product.name}'),
+                          content: Text('Removed from Cart: ${widget.items[index].product.name}'),
                         ),
                       );
                     },
@@ -53,7 +58,7 @@ class CartScreen extends StatelessWidget {
 
   double calculateTotalPrice() {
     double total = 0;
-    for (var item in cartItems) {
+    for (var item in widget.items) {
       total += item.totalPrice();
     }
     return total;
