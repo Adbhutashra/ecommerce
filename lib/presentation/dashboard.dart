@@ -41,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(onPressed: (){
            Navigator.pushReplacement(
