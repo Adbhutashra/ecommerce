@@ -1,6 +1,8 @@
+import 'package:ecommerceapp/Controller/cartController.dart';
 import 'package:ecommerceapp/Network/getServerData.dart';
 import 'package:ecommerceapp/presentation/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -11,34 +13,31 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  List<CartItem> items = [];
+  
 
-  addToCart(Product product) {
-    // Check if the product is already in the cart
-    var existingItemIndex = items.indexWhere(
-      (item) => item.product.name == product.name,
-    );
+  
+  
+  
+  
+  
 
-    if (existingItemIndex != -1) {
-      // If the product is already in the cart, increase the quantity
-      items[existingItemIndex].quantity++;
-    } else {
-      // If the product is not in the cart, add a new cart item
-      items.add(CartItem(product: product, quantity: 1));
-    }
-  }
+  
+  
+  
+  
+  
+  
+  
+  
 
-  // void removeFromCart(Product product) {
-  //   items.removeWhere((item) => item.product.name == product.name);
-  // }
 
-  // double calculateTotalPrice() {
-  //   return items.fold(0, (total, item) => total + item.totalPrice());
-  // }
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
-    // final Product product = ModalRoute.of(context).settings.arguments as Product;
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -49,12 +48,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image.asset(
-            //   'assets/product_image_placeholder.png', // Add your actual image asset path
-            //   height: 150,
-            //   width: 150,
-            //   fit: BoxFit.cover,
-            // ),
+            
+            
+            
+            
+            
+            
             SizedBox(height: 16),
             Text(
               widget.product.name,
@@ -67,8 +66,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                await addToCart(widget.product);
+                
 
+                context.read<CartModel>().addItem(widget.product);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Added to Cart: ${widget.product.name}'),
@@ -78,7 +78,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => CartScreen(
-                            items: items,
+                            items: context.read<CartModel>().items,
                           )),
                 );
               },
@@ -88,16 +88,5 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
     );
-  }
-}
-
-class CartItem {
-  final Product product;
-  int quantity;
-
-  CartItem({required this.product, required this.quantity});
-
-  double totalPrice() {
-    return product.price * quantity;
   }
 }

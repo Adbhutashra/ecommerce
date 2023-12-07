@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // After 3 seconds, navigate to the login screen
+
     Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -24,9 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: FlutterLogo(size: 200),
-      ),
-    );
+        body: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.contain,
+                    image: AssetImage('assets/splash.png')))));
   }
 }

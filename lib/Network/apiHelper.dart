@@ -37,7 +37,7 @@ class ApiHelper {
         responseJson = response.body;
         print(responseJson);
         return response;
-        break;
+  
       case 401:
         return response;
 
@@ -46,21 +46,21 @@ class ApiHelper {
         print(responseJson);
         return response;
 
-        break;
+       
       case 422:
         return response;
 
-        break;
+    
       case 401:
         responseJson = response.body;
         print(responseJson);
 
         return response;
 
-        break;
+     
       case 403:
         return response;
-        break;
+
 
       case 500:
         return response;

@@ -1,8 +1,11 @@
-import 'package:ecommerceapp/presentation/productDetails.dart';
+import 'package:ecommerceapp/Controller/cartController.dart';
+import 'package:ecommerceapp/Network/getServerData.dart';
+import 'package:ecommerceapp/presentation/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
- final  List<CartItem> items;
+  final List<Product> items;
 
   const CartScreen({super.key, required this.items});
   @override
@@ -10,13 +13,22 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // Placeholder data, replace with actual cart data
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+          
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardScreen()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,25 +39,41 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.builder(
                 itemCount: widget.items.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(widget.items[index].product.name),
-                    subtitle: Text('Quantity: ${widget.items[index].quantity}'),
-                    trailing: Text('\$${widget.items[index].totalPrice()}'),
-                    onTap: () {
-                      // Implement remove item functionality
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Removed from Cart: ${widget.items[index].product.name}'),
+                  return Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(widget.items[index].name),
                         ),
-                      );
-                    },
+                        Text('\$${widget.items[index].price}'),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                 context
+                                  .read<CartModel>()
+                                  .removeItem(index);
+                              
+                              });
+                             
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Removed from Cart: ${widget.items[index].name}'),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.delete)),
+                      ],
+                    ),
                   );
                 },
               ),
             ),
             SizedBox(height: 16),
 
-            // Total Price Section
+            
             Text(
               'Total Price: \$${calculateTotalPrice()}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -59,8 +87,10 @@ class _CartScreenState extends State<CartScreen> {
   double calculateTotalPrice() {
     double total = 0;
     for (var item in widget.items) {
-      total += item.totalPrice();
+      total += item.price;
     }
     return total;
   }
 }
+
+

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:ecommerceapp/Network/apiHelper.dart';
 import 'package:ecommerceapp/Network/params.dart';
 import 'package:ecommerceapp/Network/urls.dart';
@@ -35,15 +34,31 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(builder: (context) => DashboardScreen()),
             );
-            // showToastMessage(model.message);
-          } else if (responseJson.statusCode == 401) {
-            var msg = json.decode(responseJson.body.toString())["error"];
-
-            // showToastMessage(msg);
-          }
+           
+          } 
         }
       } catch (e) {}
     }
+  }
+
+    String? validateEmail(String value) {
+    
+    if (value.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  String? validatePassword(String value) {
+    
+    if (value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    return null;
   }
 
   @override
@@ -59,15 +74,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
+              TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'email'),
+                decoration: InputDecoration(labelText: 'Email'),
+                validator: (value) => validateEmail(value!),
               ),
               SizedBox(height: 16),
-              TextField(
+              TextFormField(
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Password'),
+                validator: (value) => validatePassword(value!),
               ),
               SizedBox(height: 16),
               ElevatedButton(

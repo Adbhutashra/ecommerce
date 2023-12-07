@@ -1,9 +1,13 @@
-import 'package:ecommerceapp/presentation/dashboard.dart';
+import 'package:ecommerceapp/Controller/cartController.dart';
 import 'package:ecommerceapp/presentation/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( ChangeNotifierProvider(
+      create: (context) => CartModel(),
+      child: MyApp(),
+    ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: DashboardScreen()
+      home: SplashScreen()
     );
   }
 }

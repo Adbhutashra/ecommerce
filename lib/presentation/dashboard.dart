@@ -1,7 +1,10 @@
+import 'package:ecommerceapp/Controller/cartController.dart';
 import 'package:ecommerceapp/Network/getServerData.dart';
 import 'package:ecommerceapp/presentation/cart.dart';
+import 'package:ecommerceapp/presentation/login.dart';
 import 'package:ecommerceapp/presentation/productDetails.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -9,7 +12,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Placeholder data, replace with actual API calls
+  
   List<Product> products = [];
   List<String> banners = ["Banner 1", "Banner 2", "Banner 3"];
 
@@ -28,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         products = fetchedProducts;
       });
     } catch (error) {
-      // Handle error
+      
       print('Error loading products: $error');
     }
   }
@@ -38,13 +41,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
+        actions: [
+          IconButton(onPressed: (){
+           Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }, icon: Icon(Icons.logout))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Banner Section
+            
             Container(
               height: 100,
               child: ListView.builder(
@@ -88,7 +99,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             SizedBox(height: 16),
 
-            // Cart Section
+            
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(8),
@@ -98,16 +109,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             CartScreen(items: ,)),
-                    //   );
-                 
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CartScreen(items: context.read<CartModel>().items)),
+                  );
                 },
                 child: Text(
-                  'Cart Items: $cartItems',
+                  "Cart Items : ${context.read<CartModel>().items.length.toString()}",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
